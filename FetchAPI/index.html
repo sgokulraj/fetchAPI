@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Fetch-API-async/await">
+    <title>Fetch API -aysnc/await</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .headbar {
+            background-color: darkcyan;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .card {
+            display: inline-block;
+            margin-right: 50px;
+            margin-top: 50px;
+            padding: 10px;
+            max-width: 350px;
+            min-height: 350px;
+            overflow: auto;
+        }
+
+        @media screen and (max-width:500px) {
+            .card {
+                padding: 0px;
+                width: 15rem;
+            }
+
+            .headbar {
+                background-color: darkcyan;
+                display: block;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="headbar p-4 mb-3">
+        <h1 style="color: white;">Fetch API (async/await)</h1>
+        <button type="button" class="btn btn-warning"><a href="./promise.html">Promise method</a></button>
+
+
+    </div>
+    <div id="users" class="m-4"></div>
+
+    <script>
+        let getUsers = async (url) => {
+            try {
+                let userContainer = document.querySelector("#users");
+                let response = await fetch(url);
+                let users = await response.json();
+                let usersArr = users.map((user) => {
+                    return (
+                        `<div id=${user.id} class="card" >
+                            <div class="card-header">
+                            <h4>${user.name}</h4>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Address: ${user.address.suite}, ${user.address.street}, ${user.address.city}-${user.address.zipcode}</li>
+                                <li class="list-group-item">Phone: ${user.phone}</li>
+                                <li class="list-group-item">Email: ${user.email}</li>
+                                <li class="list-group-item">Website: <a href=${user.website}>${user.website}</a></li>
+                                <li class="list-group-item">Company: ${user.company.name}</li>
+                            </ul>
+                        </div>
+                        `
+                    )
+                })
+                userContainer.innerHTML = usersArr.join(" ");
+            } catch (error) {
+                console.log(`something went wrong:${error}`);
+            }
+        }
+        getUsers("https://jsonplaceholder.typicode.com/users")
+
+        src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity = "sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin = "anonymous"
+    </script>
+</body>
+
+</html>
